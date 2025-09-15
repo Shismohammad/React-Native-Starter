@@ -6,9 +6,14 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: 'white' },
+        tabBarStyle: {
+          backgroundColor: 'white',
+          position: 'absolute',
+          overflow: 'hidden',
+        },
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
+        tabBarShowLabel: true,
       }}
     >
       <Tabs.Screen
