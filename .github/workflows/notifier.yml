@@ -1,0 +1,38 @@
+name: Notify Telegram
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  Telegram_Notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get timestamp
+        id: get_time
+        run: echo "TIME=$(TZ='Asia/Kolkata' date +'%-d-%m-%Y %I:%M %p')" >> $GITHUB_OUTPUT
+
+      - name: Send Telegram Notification
+        if: always()
+        uses: appleboy/telegram-action@master
+
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            🚀 *New Commit Pushed by ${{ github.actor }}*
+
+            📨 *Message:* ${{ github.event.head_commit.message }}
+
+            🗂 *Repository:* `${{ github.repository }}`
+
+            🌵 *Branch:* `${{ github.ref_name }}`
+
+            ✅ *Status:* ${{ job.status }}
+
+            📅 *Timestamp:* ${{ steps.get_time.outputs.TIME }}
+
+            🫆 *Commit ID:* `${{ github.sha }}`
